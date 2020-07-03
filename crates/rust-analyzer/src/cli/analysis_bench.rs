@@ -54,7 +54,7 @@ pub fn analysis_bench(
 
     let start = Instant::now();
     eprint!("loading: ");
-    let (mut host, vfs) = load_cargo(path, load_output_dirs, with_proc_macro)?;
+    let (mut host, vfs, _) = load_cargo(path, load_output_dirs, with_proc_macro)?;
     eprintln!("{:?}\n", start.elapsed());
 
     let file_id = {

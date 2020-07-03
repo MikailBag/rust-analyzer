@@ -7,7 +7,7 @@ use ra_ssr::{MatchFinder, SsrPattern, SsrRule};
 pub fn apply_ssr_rules(rules: Vec<SsrRule>) -> Result<()> {
     use ra_db::SourceDatabaseExt;
     use ra_ide_db::symbol_index::SymbolsDatabase;
-    let (host, vfs) = load_cargo(&std::env::current_dir()?, true, true)?;
+    let (host, vfs, _) = load_cargo(&std::env::current_dir()?, true, true)?;
     let db = host.raw_database();
     let mut match_finder = MatchFinder::new(db);
     for rule in rules {
@@ -38,7 +38,7 @@ pub fn apply_ssr_rules(rules: Vec<SsrRule>) -> Result<()> {
 pub fn search_for_patterns(patterns: Vec<SsrPattern>, debug_snippet: Option<String>) -> Result<()> {
     use ra_db::SourceDatabaseExt;
     use ra_ide_db::symbol_index::SymbolsDatabase;
-    let (host, vfs) = load_cargo(&std::env::current_dir()?, true, true)?;
+    let (host, vfs, _) = load_cargo(&std::env::current_dir()?, true, true)?;
     let db = host.raw_database();
     let mut match_finder = MatchFinder::new(db);
     for pattern in patterns {
