@@ -15,7 +15,7 @@ pub fn load_cargo(
     root: &Path,
     load_out_dirs_from_check: bool,
     with_proc_macro: bool,
-) -> Result<(AnalysisHost, vfs::Vfs)> {
+) -> Result<(AnalysisHost, vfs::Vfs, CrateGraph)> {
     let root = AbsPathBuf::assert(std::env::current_dir()?.join(root));
     let root = ProjectManifest::discover_single(&root)?;
     let ws = ProjectWorkspace::load(
@@ -50,8 +50,8 @@ pub fn load_cargo(
     loader.set_config(vfs::loader::Config { load: project_folders.load, watch: vec![] });
 
     log::debug!("crate graph: {:?}", crate_graph);
-    let host = load(crate_graph, project_folders.source_root_config, &mut vfs, &receiver);
-    Ok((host, vfs))
+    let host = load(crate_graph.clone(), project_folders.source_root_config, &mut vfs, &receiver);
+    Ok((host, vfs, crate_graph))
 }
 
 fn load(
