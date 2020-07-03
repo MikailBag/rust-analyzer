@@ -22,7 +22,7 @@ use crate::{
     visibility::{RawVisibility, Visibility},
     AdtId, AssocContainerId, ConstId, ContainerId, DefWithBodyId, EnumId, EnumVariantId,
     FunctionId, GenericDefId, HasModule, ImplId, LocalModuleId, Lookup, ModuleDefId, ModuleId,
-    StaticId, StructId, TraitId, TypeAliasId, TypeParamId, VariantId,
+    StaticId, StructId, TraitId, TypeAliasId, TypeParamId, VariantId, UnionId
 };
 
 #[derive(Debug, Clone, Default)]
@@ -112,6 +112,15 @@ impl Resolver {
             ModuleDefId::AdtId(AdtId::StructId(it)) => Some(it),
             _ => None,
         }
+    }
+
+    /// Resolve known union from std, like `std::mem::MaybeUninit`
+    pub fn resolve_known_union(&self, db: &dyn DefDatabase, path: &ModPath) -> Option<UnionId> {
+       let res = self.resolve_module_path(db, path, BuiltinShadowMode::Other).take_types()?;
+       match res {
+           ModuleDefId::AdtId(AdtId::UnionId(it)) => Some(it),
+           _ => None,
+       }
     }
 
     /// Resolve known enum from std, like `std::result::Result`
