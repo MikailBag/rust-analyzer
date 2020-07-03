@@ -333,6 +333,7 @@ macro_rules! __known_path {
     (core::ops::RangeInclusive) => {};
     (core::future::Future) => {};
     (core::ops::Try) => {};
+    (core::mem::MaybeUninit) => {};
     ($path:path) => {
         compile_error!("Please register your known path in the path module")
     };

@@ -163,6 +163,7 @@ pub mod known {
         future,
         result,
         boxed,
+        mem,
         // Components of known path (type name)
         IntoIterator,
         Item,
@@ -182,6 +183,7 @@ pub mod known {
         Neg,
         Not,
         Index,
+        MaybeUninit,
         // Builtin macros
         file,
         column,
